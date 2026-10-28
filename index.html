@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>나의 미래 스튜디오</title>
+<style>
+:root{font-family:'Pretendard','Noto Sans KR',system-ui,-apple-system,sans-serif;color:#23344b;background:#f5f7fa;font-size:19px}
+*{box-sizing:border-box}body{margin:0}button,input,textarea,select{font:inherit}button{cursor:pointer;touch-action:manipulation}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:4px solid #66a2e6;outline-offset:2px}
+.wrap{max-width:1080px;margin:auto;padding:24px 18px 70px}
+header{text-align:center;padding:18px 0 24px}h1{font-size:clamp(32px,5vw,48px);margin:4px 0;color:#203d65}header p{color:#5c6b7b;margin:8px}
+h2{font-size:clamp(25px,3.5vw,34px);margin:4px 0 16px}h3{font-size:23px;margin:20px 0 12px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.step{border:2px solid #d7e1ec;background:white;color:#53647a;padding:15px 8px;border-radius:17px;font-size:clamp(15px,2.2vw,20px);font-weight:800}
+.step.active{background:#e3efff;color:#194c8b;border-color:#6499d5}.step.done{background:#e8f5ed;border-color:#b2d7c2}
+.panel{background:#fff;border:1px solid #e1e8f0;border-radius:24px;padding:clamp(19px,4vw,36px);box-shadow:0 8px 26px #203d650b}
+.desc{color:#5c6b7b;line-height:1.65}.pathgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:18px 0}
+.pathchoice{border:3px solid #dbe4ee;background:#f7f9fc;border-radius:18px;padding:24px 12px;min-height:110px;font-size:27px;font-weight:800;color:#23425f}
+.pathchoice.selected{border-color:#3678bf;background:#e9f2ff;color:#194d8c}
+.jobgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+.job{background:#f7f9fc;border:3px solid #e0e7ef;padding:20px 8px;border-radius:18px;font-weight:800;font-size:21px;min-height:118px}
+.job span{display:block;font-size:37px;margin-bottom:7px}.job.selected{border-color:#3678bf;background:#e9f2ff;color:#194d8c}
+.features{background:#f6f9fc;border-radius:18px;padding:14px 22px;margin:22px 0}.features li{margin:13px 0;line-height:1.55}
+.field{display:block;font-weight:800;margin:22px 0 9px}textarea,input[type=text]{width:100%;border:2px solid #c8d4e2;border-radius:14px;padding:15px;min-height:58px;background:#fff;color:#23344b}
+textarea{min-height:120px;resize:vertical}.btn{border:0;border-radius:15px;padding:16px 23px;background:#286cb1;color:white;font-weight:800;font-size:21px;min-height:60px}.btn.secondary{background:#eaf0f6;color:#254969}.btn.ghost{background:#fff;color:#286cb1;border:2px solid #9abce0}.btn:disabled{background:#c5cdd7;color:#546174;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:28px}.actions .right{margin-left:auto}
+.photoactions{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.photoBox,.futureBox{min-height:260px;background:#f1f5fa;border:3px dashed #bdcddd;border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center;color:#677b91}
+.photoBox img{width:100%;max-height:440px;object-fit:contain}.photoBox .placeholder,.futureBox .placeholder{padding:32px}.tip{background:#f1f6fb;border-left:5px solid #7ba7d2;padding:13px 17px;border-radius:9px;color:#385473;line-height:1.65;font-size:17px}
+.preview{background:#eff4fa;border-radius:20px;min-height:300px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}.preview img{width:100%;max-height:350px;object-fit:contain;border-radius:13px}.preview p{line-height:1.65;overflow-wrap:anywhere}.preview .emoji{font-size:70px}
+.transformGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.futureBox{background:linear-gradient(180deg,#f7fbff 0%,#eef5fc 100%);border-style:solid;padding:10px}.futureCanvas{width:100%;height:auto;display:block;max-height:500px;border-radius:16px;background:transparent}
+.hidden{display:none!important}.modalOverlay{position:fixed;inset:0;background:#15243ba8;z-index:20;display:flex;justify-content:center;align-items:center;padding:16px}.modal{max-width:640px;max-height:90vh;overflow:auto;background:white;padding:27px;border-radius:22px;width:100%}.editrow{padding:14px 0;border-bottom:1px solid #e4eaf0}
+.editrow input{margin:7px 0}.status{color:#205c44;font-weight:800;min-height:28px;margin:14px 0}.toolbar{display:flex;justify-content:flex-end}.toolbar button{font-size:16px}.subhead{display:flex;justify-content:space-between;align-items:center;gap:15px}.videoCanvas{width:100%;max-width:700px;aspect-ratio:16/9;background:#eaf1f8;border-radius:16px;display:block;margin:16px auto}.meter{width:100%;accent-color:#397bbd;height:18px}.count{font-size:16px;color:#5c6b7b;text-align:right;margin:4px 0}.footer{text-align:center;margin-top:22px;color:#768597;font-size:15px}.badge{display:inline-block;background:#eef5fc;border:1px solid #c8d8ea;border-radius:999px;padding:8px 14px;font-size:16px;font-weight:800;color:#385473;margin:10px 0 0}
+@media(max-width:760px){.transformGrid,.preview{grid-template-columns:1fr}.wrap{padding:14px 12px 60px}.steps{gap:5px}.step{padding:12px 3px;font-size:14px}.pathgrid{grid-template-columns:1fr}.jobgrid{grid-template-columns:1fr}.job{min-height:75px;text-align:left;padding:12px 18px;display:flex;align-items:center;gap:16px}.job span{display:inline;font-size:30px;margin:0}.btn{width:100%}.actions .right{margin:0}.photoactions .btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>🌱 나의 미래 스튜디오</h1><p>내가 꿈꾸는 미래를 이야기하고 미래 모습을 만들고 영상으로 저장해요!</p></header>
+<nav class="steps" aria-label="활동 단계">
+  <button class="step active" data-goto="0">① 하고 싶은 일<br>이야기하기</button>
+  <button class="step" data-goto="1">② 미래의 내 모습<br>준비하기</button>
+  <button class="step" data-goto="2">③ 진로 영상<br>만들기</button>
+</nav>
+<main>
+<section class="panel" id="page0">
+  <h2>① 하고 싶은 일 이야기하기</h2>
+  <p class="desc">내가 원하는 미래를 골라 보세요.</p>
+  <h3>졸업 후 무엇을 하고 싶나요?</h3>
+  <div class="pathgrid" role="group" aria-label="미래 선택">
+    <button type="button" class="pathchoice selected" id="employmentBtn" aria-pressed="true">💼 취업</button>
+    <button type="button" class="pathchoice" id="universityBtn" aria-pressed="false">🎓 대학진학</button>
+  </div>
+
+  <div id="employmentFields">
+    <h3>어떤 일을 하고 싶나요?</h3>
+    <div class="jobgrid" id="jobs"></div>
+    <div class="features">
+      <div class="subhead">
+        <h3 id="featureTitle">직업의 특징 3가지</h3>
+        <button class="btn ghost" id="teacherBtn" style="font-size:16px;min-height:44px;padding:10px 12px">⚙ 교사 수정</button>
+      </div>
+      <ol id="features"></ol>
+    </div>
+  </div>
+
+  <div id="universityFields" class="hidden">
+    <label class="field" for="universityName">어떤 대학에 가고 싶나요?</label>
+    <input type="text" id="universityName" maxlength="100" placeholder="예: ○○대학교">
+    <label class="field" for="majorName">어떤 학과에서 공부하고 싶나요?</label>
+    <input type="text" id="majorName" maxlength="100" placeholder="예: 사회복지학과">
+  </div>
+
+  <label class="field" for="story" id="storyLabel">내가 이 일을 하고 싶은 이유 또는 하고 싶은 일</label>
+  <textarea id="story" maxlength="280" placeholder="예: 저는 커피를 만들어 사람들에게 전하고 싶어요."></textarea>
+  <p class="count"><span id="storyCount">0</span> / 280자</p>
+  <div class="actions"><button class="btn right" id="next0">다음 단계 →</button></div>
+</section>
+
+<section class="panel hidden" id="page1">
+  <h2>② 미래의 내 모습 준비하기</h2>
+  <p class="desc">내 사진을 선택하거나 카메라로 찍어 보세요. 사진은 이 기기에서만 사용되며 서버로 전송하거나 저장하지 않습니다. 사진을 넣으면 선택한 진로에 어울리는 <strong>미래의 내 모습</strong>으로 합성 미리보기를 보여줍니다.</p>
+  <div class="photoactions">
+    <button class="btn" id="choosePhoto">🖼 사진 선택하기</button>
+    <button class="btn secondary" id="takePhoto">📷 사진 촬영하기</button>
+    <button class="btn ghost hidden" id="clearPhoto">사진 지우기</button>
+  </div>
+  <input type="file" id="photoFile" accept="image/*" class="hidden">
+  <input type="file" id="cameraFile" accept="image/*" capture="user" class="hidden">
+
+  <div class="transformGrid">
+    <div>
+      <h3>내가 넣은 사진</h3>
+      <div class="photoBox" id="photoBox"><div class="placeholder">📸<p>사진을 넣으면 여기에서 볼 수 있어요.</p></div></div>
+    </div>
+    <div>
+      <h3>미래의 내 모습</h3>
+      <div class="futureBox" id="futureBox">
+        <canvas id="futureCanvas" class="futureCanvas" width="720" height="900" aria-label="미래의 내 모습 합성 미리보기"></canvas>
+        <div class="placeholder" id="futurePlaceholder">✨<p>사진을 넣으면 선택한 진로에 어울리는 모습으로 보여드려요.</p></div>
+      </div>
+      <p class="badge" id="futureLabel">현재 선택: 바리스타</p>
+    </div>
+  </div>
+
+  <p class="tip">💡 이 기능은 서버 업로드 없이 <strong>기기 안에서만</strong> 사진을 합성해서 보여줍니다. 실제 AI 사진 생성이 아니라, 선택한 진로에 어울리는 의상·소품·분위기를 입혀서 표현하는 활동용 미리보기입니다.</p>
+  <div class="actions"><button class="btn secondary" id="back1">← 이전</button><button class="btn right" id="next1">다음 단계 →</button></div>
+</section>
+
+<section class="panel hidden" id="page2">
+  <h2>③ 진로 영상 만들기</h2>
+  <p class="desc">내가 선택한 미래와 나의 이야기를 확인해요. 아래에서 미래 모습이 들어간 15초짜리 진로 영상을 만들 수 있어요.</p>
+  <div class="preview" id="summary"></div>
+  <h3>내 진로 영상 미리보기</h3>
+  <canvas class="videoCanvas" id="movie" width="960" height="540" aria-label="진로 영상 미리보기 화면"></canvas>
+  <div class="photoactions"><button class="btn secondary" id="playPreview">▶ 미리보기 재생</button><button class="btn" id="downloadVideo">🎬 영상 만들고 저장하기</button></div>
+  <progress class="meter hidden" id="progress" max="100" value="0"></progress>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+  <p class="tip">영상은 이 브라우저에서만 생성합니다. 지원하는 브라우저에서는 WebM 영상으로 저장됩니다. 사진은 별도 업로드되지 않아요. 영상에 음성이나 배경음악은 포함되지 않습니다.</p>
+  <div class="actions"><button class="btn secondary" id="back2">← 이전</button><button class="btn ghost right" id="restart">처음으로</button></div>
+</section>
+</main>
+<p class="footer">나의 미래 스튜디오 · 학생을 위한 진로 탐색 활동</p>
+</div>
+
+<div id="editModal" class="modalOverlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="subhead"><h2 id="modalTitle">교사: 직업 특징 수정</h2><button class="btn secondary" id="closeModal" style="min-height:45px;padding:9px 14px">닫기</button></div>
+    <p class="desc">현재 선택한 직업의 특징 3개를 수정할 수 있습니다. 수정 내용은 이 브라우저에 저장됩니다.</p>
+    <div id="editFields"></div>
+    <div class="actions"><button class="btn ghost" id="resetJob">기본 특징 복원</button><button class="btn" id="saveJob">수정 내용 저장</button></div>
+  </div>
+</div>
+
+<script>
+(()=>{'use strict';
+const defaults=[
+  {name:'바리스타',emoji:'☕',features:['커피와 다양한 음료를 만들어요.','손님에게 친절하게 인사하고 주문을 받아요.','도구와 일하는 공간을 깨끗하게 정리해요.']},
+  {name:'장애인일자리',emoji:'🤝',features:['나에게 맞는 일자리를 찾아 일해요.','맡은 일을 차근차근 수행해요.','동료와 인사하고 함께 일해요.']},
+  {name:'보호작업장',emoji:'🏭',features:['나에게 맞는 작업을 연습하고 수행해요.','작업 도구를 안전하게 사용해요.','친구들과 협력하고 작업장을 정리해요.']}
+];
+let saved={};try{saved=JSON.parse(localStorage.getItem('futureStudioJobsV1')||'{}')||{}}catch{}
+const jobs=defaults.map(d=>({...d,features:Array.isArray(saved[d.name])&&saved[d.name].length===3?saved[d.name].map(String):[...d.features]}));
+const $=id=>document.getElementById(id);
+let step=0,selected=0,path='employment',photoURL='',photoImage=null,playing=false,recording=false,raf=0;
+const futureCanvas=$('futureCanvas'),futureCtx=futureCanvas.getContext('2d');
+const movie=$('movie'),mctx=movie.getContext('2d');
+const W=movie.width,H=movie.height;
+
+function choiceTitle(){return path==='employment'?jobs[selected].name:[$('universityName').value.trim()||'희망 대학 미정',$('majorName').value.trim()||'희망 학과 미정'].join(' · ')}
+function choiceEmoji(){return path==='employment'?jobs[selected].emoji:'🎓'}
+function summaryTitle(){return path==='employment'?'나의 취업 목표: '+choiceTitle():'나의 대학진학 목표'}
+function currentTheme(){
+  if(path==='university')return {label:($('universityName').value.trim()||'희망 대학')+' · '+($('majorName').value.trim()||'희망 학과'),bg1:'#edf2ff',bg2:'#dfe8ff',accent:'#4f69c6',panel:'#ffffff',cloth:'#223a7a',cloth2:'#f3f6ff',icon:'🎓',tag:'대학생/졸업생 느낌',item:'📘'};
+  if(selected===0)return {label:'바리스타',bg1:'#fff6eb',bg2:'#f7e1bf',accent:'#9c623b',panel:'#fffdf8',cloth:'#6b4632',cloth2:'#d3aa84',icon:'☕',tag:'앞치마와 커피 소품',item:'☕'};
+  if(selected===1)return {label:'장애인일자리',bg1:'#edf8f0',bg2:'#d3efdb',accent:'#3c8f68',panel:'#fcfffd',cloth:'#5aa57f',cloth2:'#e6f8ef',icon:'🤝',tag:'명찰과 업무도구',item:'📋'};
+  return {label:'보호작업장',bg1:'#fff6ed',bg2:'#ffe0b8',accent:'#d07a1d',panel:'#fffdf9',cloth:'#f19a36',cloth2:'#fff2de',icon:'🏭',tag:'안전조끼와 작업도구',item:'🧰'};
+}
+function setPath(v){
+  path=v;const emp=v==='employment';
+  $('employmentFields').classList.toggle('hidden',!emp);$('universityFields').classList.toggle('hidden',emp);
+  $('employmentBtn').classList.toggle('selected',emp);$('universityBtn').classList.toggle('selected',!emp);
+  $('employmentBtn').setAttribute('aria-pressed',String(emp));$('universityBtn').setAttribute('aria-pressed',String(!emp));
+  $('storyLabel').textContent=emp?'내가 이 일을 하고 싶은 이유 또는 하고 싶은 일':'이 대학과 학과에 가고 싶은 이유 또는 배우고 싶은 것';
+  $('story').placeholder=emp?'예: 저는 커피를 만들어 사람들에게 전하고 싶어요.':'예: 저는 이 학과에서 다양한 것을 배우고 싶어요.';
+  updateFutureLook();renderSummary();drawFrame(0);
+}
+$('employmentBtn').onclick=()=>setPath('employment');$('universityBtn').onclick=()=>setPath('university');
+['universityName','majorName'].forEach(id=>$(id).addEventListener('input',()=>{updateFutureLook();renderSummary();drawFrame(0)}));
+
+function renderJobs(){
+  $('jobs').innerHTML='';
+  jobs.forEach((j,i)=>{let b=document.createElement('button');b.type='button';b.className='job'+(selected===i?' selected':'');b.setAttribute('aria-pressed',String(selected===i));b.innerHTML='<span>'+j.emoji+'</span>'+j.name;b.onclick=()=>{selected=i;renderJobs();renderFeatures();updateFutureLook();renderSummary();drawFrame(0)};$('jobs').append(b)});
+  renderFeatures();
+}
+function renderFeatures(){$('featureTitle').textContent=jobs[selected].name+'의 특징 3가지';$('features').replaceChildren(...jobs[selected].features.map(f=>{const li=document.createElement('li');li.textContent=f;return li}))}
+function go(n){stopPreview();step=n;[0,1,2].forEach(i=>{$('page'+i).classList.toggle('hidden',i!==n);const b=document.querySelector('[data-goto="'+i+'"]');b.classList.toggle('active',i===n);b.classList.toggle('done',i<n);b.setAttribute('aria-current',i===n?'step':'false')});if(n===2){renderSummary();drawFrame(0)}window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>go(+b.dataset.goto));$('next0').onclick=()=>go(1);$('next1').onclick=()=>go(2);$('back1').onclick=()=>go(0);$('back2').onclick=()=>go(1);$('restart').onclick=()=>go(0);
+$('story').oninput=()=>{$('storyCount').textContent=$('story').value.length;renderSummary();drawFrame(0)};
+
+$('teacherBtn').onclick=()=>{const wrap=$('editFields');wrap.innerHTML='';jobs[selected].features.forEach((f,i)=>{const div=document.createElement('div');div.className='editrow';const lab=document.createElement('label');lab.className='field';lab.textContent='특징 '+(i+1);const inp=document.createElement('input');inp.type='text';inp.maxLength=110;inp.value=f;inp.dataset.feature=i;div.append(lab,inp);wrap.append(div)});$('editModal').classList.remove('hidden');wrap.querySelector('input').focus()};
+const close=()=>$('editModal').classList.add('hidden');$('closeModal').onclick=close;$('editModal').onclick=e=>{if(e.target===$('editModal'))close()};document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+function persist(){try{localStorage.setItem('futureStudioJobsV1',JSON.stringify(Object.fromEntries(jobs.map(j=>[j.name,j.features]))))}catch{alert('이 브라우저에서 저장할 수 없습니다.')}}
+$('saveJob').onclick=()=>{const v=[...document.querySelectorAll('[data-feature]')].map(x=>x.value.trim());if(v.some(x=>!x)){alert('특징 3개를 모두 입력해 주세요.');return}jobs[selected].features=v;persist();renderFeatures();renderSummary();close()};
+$('resetJob').onclick=()=>{jobs[selected].features=[...defaults[selected].features];persist();renderFeatures();close()};
+
+$('choosePhoto').onclick=()=>$('photoFile').click();$('takePhoto').onclick=()=>$('cameraFile').click();
+function discardPhoto(){if(photoURL)URL.revokeObjectURL(photoURL);photoURL='';photoImage=null;$('photoBox').innerHTML='<div class="placeholder">📸<p>사진을 넣으면 여기에서 볼 수 있어요.</p></div>';$('clearPhoto').classList.add('hidden');updateFutureLook();renderSummary();drawFrame(0)}
+$('clearPhoto').onclick=discardPhoto;
+async function setPhoto(file){
+  if(!file)return;
+  if(!file.type.startsWith('image/')){alert('이미지 파일을 골라 주세요.');return}
+  if(file.size>20*1024*1024){alert('20MB 이하의 이미지를 선택해 주세요.');return}
+  const next=URL.createObjectURL(file),img=new Image();
+  try{await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=next})}catch{URL.revokeObjectURL(next);alert('사진을 열 수 없습니다.');return}
+  discardPhoto();photoURL=next;photoImage=img;const display=new Image();display.alt='내가 선택한 사진';display.src=next;$('photoBox').replaceChildren(display);$('clearPhoto').classList.remove('hidden');updateFutureLook();renderSummary();drawFrame(0)
+}
+for(const id of ['photoFile','cameraFile'])$(id).onchange=e=>{setPhoto(e.target.files[0]);e.target.value=''};
+
+function rounded(ctx,x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function strokedRounded(ctx,x,y,w,h,r,fill,stroke){ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();ctx.stroke()}
+function text(ctx,str,x,y,size,color='#23344b',weight='700',align='center',maxW){ctx.fillStyle=color;ctx.font=weight+' '+size+'px system-ui, sans-serif';ctx.textAlign=align;ctx.textBaseline='middle';maxW?ctx.fillText(str,x,y,maxW):ctx.fillText(str,x,y)}
+function splitLines(str,maxChars=18){let out=[],line='';for(const c of Array.from(str)){line+=c;if(line.length>=maxChars||c==='\n'){out.push(line.trim());line=''}}if(line.trim())out.push(line.trim());return out.slice(0,5)}
+function drawCover(ctx,img,x,y,w,h){const scale=Math.max(w/img.width,h/img.height);const dw=img.width*scale,dh=img.height*scale;ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)/2,dw,dh)}
+function drawSoftCircles(ctx,w,h,t){ctx.globalAlpha=.20;for(let i=0;i<7;i++){ctx.fillStyle=t.accent;ctx.beginPath();ctx.arc((i*97+85)%w,80+(i%3)*120,30+(i%4)*12,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1}
+function drawPhotoArea(ctx,x,y,w,h){ctx.save();ctx.beginPath();ctx.roundRect(x,y,w,h,28);ctx.clip();if(photoImage){drawCover(ctx,photoImage,x,y,w,h)}else{ctx.fillStyle='#eef3f8';ctx.fillRect(x,y,w,h);text(ctx,choiceEmoji(),x+w/2,y+h/2-20,90,'#5e7899');text(ctx,'사진 없이도 만들 수 있어요',x+w/2,y+h/2+48,26,'#5e7899','700','center',w-40)}ctx.restore()}
+function drawAccessorySet(ctx,t,w,h){
+  const faceX=w/2, bodyTop=510;
+  if(t.label==='바리스타'){
+    rounded(ctx,180,bodyTop,360,260,30,t.cloth2); rounded(ctx,210,470,300,80,40,t.cloth); rounded(ctx,245,548,230,220,28,'#f4e4d5');
+    ctx.fillStyle=t.cloth;ctx.fillRect(295,532,18,190);ctx.fillRect(407,532,18,190);
+    text(ctx,'☕',545,634,80,'#7c4f2b');text(ctx,'BARISTA',360,620,34,'#6a442f','800');
+    ctx.strokeStyle='#7c4f2b';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(520,595);ctx.bezierCurveTo(538,575,560,580,566,598);ctx.stroke();
+  } else if(t.label==='장애인일자리'){
+    rounded(ctx,180,bodyTop,360,260,30,t.cloth2); rounded(ctx,210,485,300,85,40,t.cloth); rounded(ctx,230,555,260,205,26,'#ffffff');
+    strokedRounded(ctx,275,570,170,86,18,'#f6fbf8','#8ac5a7'); text(ctx,'MY JOB',360,598,26,t.accent,'800'); text(ctx,'안내 · 정리 · 도움',360,631,18,'#47655a','700');
+    text(ctx,'📋',560,630,82,t.accent); text(ctx,'🤝',160,640,70,t.accent);
+  } else if(t.label==='보호작업장'){
+    rounded(ctx,180,bodyTop,360,260,30,t.cloth2); rounded(ctx,210,490,300,90,42,t.cloth); rounded(ctx,220,565,280,195,28,'#fff5e7');
+    ctx.fillStyle='#ffd15b';ctx.beginPath();ctx.arc(360,485,88,Math.PI,0);ctx.fill();ctx.fillRect(272,485,176,34);
+    text(ctx,'SAFE WORK',360,606,30,'#8e5819','800');text(ctx,'🧰',552,632,84,'#d17b1d');text(ctx,'📦',168,632,70,'#d17b1d');
+  } else {
+    rounded(ctx,175,500,370,275,32,t.cloth2); rounded(ctx,220,500,280,220,24,t.cloth); rounded(ctx,245,535,230,240,24,'#f4f7ff');
+    ctx.fillStyle=t.cloth;ctx.beginPath();ctx.moveTo(220,500);ctx.lineTo(500,500);ctx.lineTo(360,690);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#17254d';ctx.fillRect(255,168,210,24);ctx.fillRect(328,146,64,48);ctx.fillStyle='#f5d46d';ctx.fillRect(460,188,14,110);
+    text(ctx,'🎓',548,622,82,'#314ea8');text(ctx,'📘',164,622,72,'#314ea8');
+  }
+}
+function renderFuturePortrait(ctx,w,h){
+  const t=currentTheme();
+  ctx.clearRect(0,0,w,h);
+  const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,t.bg1);g.addColorStop(1,t.bg2);ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  drawSoftCircles(ctx,w,h,t);rounded(ctx,34,28,w-68,h-56,30,t.panel);rounded(ctx,34,28,w-68,14,8,t.accent);
+  text(ctx,'나의 미래 모습',w/2,68,34,t.accent,'800');
+  strokedRounded(ctx,78,104,w-156,64,18,'#ffffff',t.accent);text(ctx,t.icon+' '+(path==='employment'?t.label:(($('universityName').value.trim()||'희망 대학')+' · '+($('majorName').value.trim()||'희망 학과'))),w/2,136,28,t.accent,'800','center',w-190);
+  drawPhotoArea(ctx,120,188,w-240,308);
+  drawAccessorySet(ctx,t,w,h);
+  rounded(ctx,92,h-118,w-184,70,18,'#ffffff');
+  text(ctx,t.tag,w/2,h-84,25,'#4b6076','800','center',w-210);
+}
+function updateFutureLook(){
+  $('futureLabel').textContent='현재 선택: '+(path==='employment'?jobs[selected].name:(($('universityName').value.trim()||'희망 대학')+' · '+($('majorName').value.trim()||'희망 학과')));
+  renderFuturePortrait(futureCtx,futureCanvas.width,futureCanvas.height);
+  $('futurePlaceholder').classList.toggle('hidden',!!photoImage);
+  futureCanvas.classList.toggle('hidden',!photoImage);
+}
+function renderSummary(){
+  const s=$('summary'); if(!s)return; s.replaceChildren();
+  const pic=document.createElement('div');
+  if(photoImage){const image=new Image();image.src=futureCanvas.toDataURL('image/png');image.alt='미래의 내 모습 합성 이미지';pic.append(image)}else{pic.className='emoji';pic.textContent=choiceEmoji()}
+  const txt=document.createElement('div');
+  const h=document.createElement('h3');h.textContent=summaryTitle();txt.append(h);
+  if(path==='university'){let p1=document.createElement('p');p1.textContent='희망 대학: '+($('universityName').value.trim()||'아직 정하지 않았어요');let p2=document.createElement('p');p2.textContent='희망 학과: '+($('majorName').value.trim()||'아직 정하지 않았어요');txt.append(p1,p2)}
+  else {let p0=document.createElement('p');p0.textContent='희망 직업: '+jobs[selected].name;txt.append(p0)}
+  const p=document.createElement('p');p.textContent=$('story').value.trim()||'나는 미래의 나를 응원해요!';txt.append(p);
+  if(path==='employment'){const ul=document.createElement('ul');jobs[selected].features.forEach(f=>{let li=document.createElement('li');li.textContent=f;ul.append(li)});txt.append(ul)}
+  s.append(pic,txt);
+}
+
+function drawVideoText(str,y,size,color='#23344b',weight='700',max=860){mctx.fillStyle=color;mctx.font=weight+' '+size+'px system-ui, sans-serif';mctx.textAlign='center';mctx.textBaseline='middle';mctx.fillText(str,W/2,y,max)}
+function drawVideoLines(str,startY,size,maxChars){splitLines(str,maxChars).forEach((ln,i)=>drawVideoText(ln,startY+i*(size+10),size,'#23344b','700',860))}
+function drawVideoBackground(){const g=mctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#edf4fb');g.addColorStop(1,'#dfeaf6');mctx.fillStyle=g;mctx.fillRect(0,0,W,H);rounded(mctx,35,30,890,480,26,'#fff');rounded(mctx,35,30,890,12,7,'#8bb7de');drawVideoText('🌱 나의 미래 스튜디오',81,29,'#557a9e','800')}
+function drawFrame(sec){
+  const stage=sec<5?0:sec<10?1:2;drawVideoBackground();const title=choiceTitle();const emoji=choiceEmoji();
+  if(stage===0){drawVideoText('나의 미래 계획',157,42);drawVideoText(path==='employment'?'💼 취업':'🎓 대학진학',236,57,'#236db0','800');if(path==='employment'){drawVideoText(emoji+' '+title,329,46,'#23344b','800')}else{drawVideoLines(title,320,32,22)}}
+  else if(stage===1){
+    if(photoImage){mctx.drawImage(futureCanvas,115,112,300,375)} else {drawVideoText(emoji,235,120,'#5e7899','800');drawVideoText('사진이 없어도 꿈은 만들 수 있어요',416,26,'#5e7899','700')}
+    rounded(mctx,480,136,340,180,24,'#f3f7fb');drawVideoText('미래의 내 모습',165,33,'#236db0','800');drawVideoText(path==='employment'?jobs[selected].name:'대학진학 준비',230,36,'#23344b','800');
+    const small=path==='employment'?jobs[selected].features.join(' / '):(($('universityName').value.trim()||'희망 대학 미정')+' / '+($('majorName').value.trim()||'희망 학과 미정'));drawVideoLines(small,285,21,19);
+  }
+  else {
+    const story=$('story').value.trim()||'나는 미래의 나를 응원해요!';
+    if(photoImage)mctx.drawImage(futureCanvas,95,118,240,300); else {rounded(mctx,95,118,240,300,20,'#eef3f8');drawVideoText(emoji,250,94,'#5e7899','800')}
+    drawVideoText(path==='employment'?'나의 취업 꿈':'나의 진학 꿈',126,31,'#236db0','800');
+    if(path==='employment'){drawVideoText(jobs[selected].name,170,38,'#23344b','800')} else {drawVideoText($('universityName').value.trim()||'희망 대학 미정',165,26,'#23344b','800');drawVideoText($('majorName').value.trim()||'희망 학과 미정',200,26,'#23344b','700')}
+    drawVideoLines(story,path==='employment'?280:300,28,22);drawVideoText('나의 꿈을 응원해요! ✨',440,28,'#60758a','800');
+  }
+  rounded(mctx,84,485,792,6,3,'#e2e8f0');rounded(mctx,84,485,792*Math.min(sec/15,1),6,3,'#367fbe')
+}
+function stopPreview(){playing=false;cancelAnimationFrame(raf)}
+$('playPreview').onclick=()=>{if(recording)return;stopPreview();playing=true;const start=performance.now();const tick=now=>{if(!playing)return;let t=(now-start)/1000;drawFrame(Math.min(t,15));if(t<15)raf=requestAnimationFrame(tick);else playing=false};raf=requestAnimationFrame(tick)};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+$('downloadVideo').onclick=async()=>{
+  if(recording)return;
+  if(!movie.captureStream||!window.MediaRecorder){$('status').textContent='이 브라우저는 영상 저장을 지원하지 않습니다. 최신 Chrome 또는 Edge를 이용해 주세요.';return}
+  stopPreview();recording=true;$('downloadVideo').disabled=true;$('playPreview').disabled=true;$('progress').classList.remove('hidden');$('progress').value=0;$('status').textContent='영상을 만들고 있어요. 화면을 닫지 마세요.';
+  let stream=null,rec=null;
+  try{
+    const mime=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(x=>MediaRecorder.isTypeSupported(x));if(!mime)throw new Error('이 브라우저에서는 WebM 영상 저장을 지원하지 않습니다.');
+    drawFrame(0);stream=movie.captureStream(30);const chunks=[];rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:2300000});
+    const finished=new Promise((resolve,reject)=>{rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};rec.onerror=e=>reject(e.error||new Error('녹화 오류'));rec.onstop=()=>resolve()});
+    rec.start(250);const start=performance.now();await new Promise(resolve=>{let id;function tick(now){let t=Math.min((now-start)/1000,15);drawFrame(t);$('progress').value=Math.round(t/15*100);if(t<15)id=requestAnimationFrame(tick);else resolve()}id=requestAnimationFrame(tick)});await sleep(350);rec.stop();await finished;
+    if(!chunks.length)throw Error('영상 데이터가 생성되지 않았습니다.');
+    const blob=new Blob(chunks,{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='나의_미래_스튜디오_'+(path==='employment'?'취업':'대학진학')+'.webm';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);$('status').textContent='✅ 영상이 완성되어 기기에 저장되었습니다!';
+  }catch(e){$('status').textContent='영상 생성 실패: '+(e.message||'지원 브라우저를 확인해 주세요.')}finally{if(rec?.state==='recording')rec.stop();stream?.getTracks().forEach(t=>t.stop());recording=false;$('downloadVideo').disabled=false;$('playPreview').disabled=false}
+};
+
+renderJobs();updateFutureLook();renderSummary();drawFrame(0);
+})();
+</script>
+</body>
+</html>
